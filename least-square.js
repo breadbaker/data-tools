@@ -7,47 +7,46 @@
 */
 
 var _ = require('lodash');
-x = [0,1,2,3,4,5,6,7,8]
 
-y = [0,2,4,6,8,10,12,14,16]
+var LeastSquares = function () {}
 
-var data = [];
+_.extend(LeastSquares.prototype, {
+  initialize: function (opt) {
+    this.dataSet = opt.dataSet;
+    this.getSlope();
+    this.getIntercept();
+  },
 
-_.each(x, function (val, idx) {
-  data.push({
-    x: val,
-    y: y[idx]
-  });
+  getSlope: function () {
+    this.sumXY = _.inject(this.dataSet, function (total, point) {
+      return total + point.x * point.y;
+    }, 0);
+
+    this.sumX = _.inject(this.dataSet, function (total, point) {
+      return total + point.x;
+    }, 0);
+
+    this.sumY = _.inject(this.dataSet, function (total, point) {
+      return total + point.y;
+    }, 0);
+
+    this.sumXsquare = _.inject(this.dataSet, function (total, point) {
+      return total + point.x * point.x;
+    }, 0);
+
+    this.n = this.dataSet.length;
+
+
+    var top = this.sumXY - this.sumX * this.sumY / this.n;
+
+    var bottom = this.sumXsquare - this.sumX * this.sumX / this.n;
+
+    this.slope = top / bottom;
+  },
+
+  getIntercept: function () {
+    this.intercept = ( this.sumY - this.slope * this.sumX ) / this.n;
+  }
 });
 
-var getSlope = function (dataSet) {
-
-  var sumXY = _.inject(dataSet, function (total, point) {
-    return total + point.x * point.y;
-  }, 0);
-
-  var sumX = _.inject(dataSet, function (total, point) {
-    return total + point.x;
-  }, 0);
-
-  var sumY = _.inject(dataSet, function (total, point) {
-    return total + point.y;
-  }, 0);
-
-  var sumXsquare = _.inject(dataSet, function (total, point) {
-    return total + point.x * point.x;
-  }, 0);
-
-  var n = dataSet.length;
-
-
-  var top = sumXY - sumX * sumY / n;
-
-  var bottom = sumXsquare - sumX * sumX / n
-
-  return top / bottom;
-}
-
-console.log(data);
-
-console.log(getSlope(data));
+module.exports = LeastSquares;
