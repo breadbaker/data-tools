@@ -1,0 +1,14 @@
+{
+  "name": "regression",
+  "version": "0.0.1",
+  "description": "linear regression using least square",
+  "engines": {
+    "node": "0.10",
+    "npm": "1.4"
+  },
+  "dependencies": {
+    "grunt": "0.4.5",
+    "grunt-cli": "0.1.13",
+    "lodash": "^2.4.1"
+  }
+}
